@@ -21,8 +21,8 @@ ota:
   platform: esphome
 
 wifi:
-  ssid: Fruithapje
-  password: pancake500
+  ssid: x
+  password: x
 
 captive_portal:
 
