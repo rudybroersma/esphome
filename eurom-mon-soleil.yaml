@@ -1,0 +1,69 @@
+substitutions:
+  devicename: eurom-heater-1
+  device_description: "Eurom Heater Mon Soleil 600"
+
+esphome:
+  name: ${devicename}
+  platform: ESP8266
+  board: esp01_1m
+  # Two globals floats are written on a daily basis which should not have a too
+  # detrimental effect on the flash memory.
+  #esp8266_restore_from_flash: true
+
+network:
+    enable_ipv6: true
+    min_ipv6_addr_count: 2
+
+logger:
+
+api:
+ota:
+  platform: esphome
+
+wifi:
+  ssid: Fruithapje
+  password: pancake500
+
+captive_portal:
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+tuya:
+  time_id: homeassistant_time
+
+uart:
+  rx_pin: GPIO13
+  tx_pin: GPIO15
+  baud_rate: 9600
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      disabled_by_default: true
+    ssid:
+      name: "Wi-Fi SSID"
+      disabled_by_default: true
+  - platform: version
+    name: "ESPHome Version"
+    disabled_by_default: true
+    hide_timestamp: true
+
+climate:
+  - platform: tuya
+    name: "Mon Soleil 600"
+    switch_datapoint: 1
+    target_temperature_datapoint: 2
+    current_temperature_datapoint: 3
+    supports_heat: true
+    visual:
+      temperature_step: 1
+      min_temperature: 0
+      max_temperature: 37
+
+switch:
+  - platform: "tuya"
+    name: "Power"
+    switch_datapoint: 1
